@@ -1,9 +1,0 @@
-BACKLIGHT_ENABLE = no
-RGBLIGHT_ENABLE = no
-AUDIO_ENABLE = no
-MOUSEKEY_ENABLE = yes
-VIA_ENABLE = yes
-POINTING_DEVICE_ENABLE = yes
-CONSOLE_ENABLE = no         # Console for debug
-
-SRC += v99slim.c
