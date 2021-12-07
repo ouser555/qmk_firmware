@@ -1,5 +1,29 @@
 #include QMK_KEYBOARD_H
 
+#include "wait.h"
+#include "quantum.h"
+#include "v99slim.h"
+#include "pointing_device.h"
+#include "transactions.h"
+#include "transport.h"
+#include "transaction_id_define.h"
+
+void process_mouse(report_mouse_t* mouse_report);
+void process_mouse_user(report_mouse_t* mouse_report, int16_t x, int16_t y);
+void process_wheel(report_mouse_t* mouse_report);
+void process_wheel_user(report_mouse_t* mouse_report, int16_t h, int16_t v);
+
+const static float V99_X_TRANSFORM = -3;//-2.5;
+const static float V99_Y_TRANSFORM = 3;//2.5;
+const static float V99_WHEEL_H_DIV = 10;
+const static float V99_WHEEL_V_DIV = 20;
+
+static bool is_drag_scroll = 0;
+
+#define V99MASTER 0x11
+static int16_t s2m_x = 0;
+static int16_t s2m_y = 0;
+
 #define _QWERTY 0
 #define _LOWER 1
 #define _RAISE 2
@@ -150,3 +174,206 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   }
   return true;
 }
+
+
+__attribute__((weak)) void process_mouse_user(report_mouse_t* mouse_report, int16_t x, int16_t y) {
+    //if( x!=0 && y!=0 ){
+      mouse_report->x = x;
+      mouse_report->y = y;
+
+    //}else{
+
+      //mouse_report->x = s2m_x;
+      //mouse_report->y = s2m_y;
+    //}
+    //s2m_x = 0;
+    //s2m_y = 0;
+}
+
+__attribute__((weak)) void process_mouse(report_mouse_t* mouse_report) {
+
+	  float xt = 0;
+	  float yt = 0;
+
+    report_v99_t data = v99_slim_read_burst();
+
+    if (!is_keyboard_master()){
+      s2m_x = data.dx;
+      s2m_y = data.dy;
+    }else{
+      if(data.dx == 0 && data.dy == 0){
+        data.dx = s2m_x;
+        data.dy = s2m_y;
+        s2m_x = 0;
+        s2m_y = 0;
+      }
+    }
+    //if (data.dx != 0 || data.dy != 0) {
+        //if (debug_mouse)
+        //    dprintf("Raw ] X: %d, Y: %d\n", data.dx, data.dy);
+
+        // Apply delta-X and delta-Y transformations.
+				if(abs(data.dx)>1 || abs(data.dy)>1){
+				  xt = (float) data.dx * V99_X_TRANSFORM;
+          yt = (float) data.dy * V99_Y_TRANSFORM;
+			  }else{
+					xt = (float) data.dx * -1;
+          yt = (float) data.dy;
+				}
+
+        int16_t xti = (int16_t)xt;
+        int16_t yti = (int16_t)yt;
+
+        process_mouse_user(mouse_report, xti, yti);
+
+
+    //}
+}
+
+void pointing_device_init(void) {
+    v99_slim_init();
+
+    v99_slim_write(REG_CHIP_RESET, 0x5A);
+
+    // wait maximum time before v99 sensor is ready.
+    // this ensures that the v99 sensor is actuall ready after reset.
+    wait_ms(55);
+
+    // read a burst from the v99 sensor and then discard it.
+    // gets the v99 sensor ready for write commands
+    // (for example, setting the powerdown mode).
+    v99_slim_read_burst();
+
+    //wait_us(30);
+    // set the powerdown mode.
+    //v99_slim_write(REG_MOUSE_CONTROL, 0x01); // default 0x00
+}
+
+void pointing_device_task(void) {
+
+    static int16_t wheelh = 0;
+		static int16_t wheelv = 0;
+
+    report_mouse_t mouse_report = pointing_device_get_report();
+    //process_wheel(&mouse_report);
+    process_mouse(&mouse_report);
+
+    if (is_drag_scroll) {
+        //mouse_report.h = -mouse_report.x/V99_X_TRANSFORM;
+				//mouse_report.h = mouse_report.x/4;
+
+        wheelh += mouse_report.x;
+				if(wheelh >= V99_WHEEL_H_DIV ){
+					mouse_report.h = 1;
+					wheelh-=V99_WHEEL_H_DIV;
+				}else if(wheelh <= -V99_WHEEL_H_DIV){
+					mouse_report.h = -1;
+					wheelh+= V99_WHEEL_H_DIV;
+				}
+//#ifdef PLOOPY_DRAGSCROLL_INVERT
+#ifdef V99PAD_DRAGSCROLL_INVERT
+        // Invert vertical scroll direction
+        //mouse_report.v = mouse_report.y/V99_Y_TRANSFORM;
+				mouse_report.v = mouse_report.y/4;
+#else
+        //mouse_report.v = -mouse_report.y/V99_Y_TRANSFORM;
+				//mouse_report.v = -mouse_report.y/4;
+
+				wheelv += mouse_report.y;
+				if(wheelv >= V99_WHEEL_V_DIV ){
+					mouse_report.v = -1;
+					wheelv-=V99_WHEEL_V_DIV;
+				}else if(wheelv <= -V99_WHEEL_V_DIV){
+					mouse_report.v = 1;
+					wheelv+= V99_WHEEL_V_DIV;
+				}
+#endif
+        if(abs(mouse_report.y) >= abs(mouse_report.x))
+				{
+					mouse_report.h = 0;
+					wheelh = 0;
+				}else{
+					mouse_report.v = 0;
+					wheelv = 0;
+				}
+
+
+        mouse_report.x = 0;
+        mouse_report.y = 0;
+    }
+
+    pointing_device_set_report(mouse_report);
+    pointing_device_send();
+}
+#if 1
+
+typedef struct _master_to_slave_t {
+    uint8_t m2s_id;
+    //int16_t m2s_x;
+    //int16_t m2s_y;
+} master_to_slave_t;
+
+typedef struct _slave_to_master_t {
+    //int s2m_data;
+    //int16_t slave_x;
+    //int16_t slave_y;
+    uint8_t slave_x;
+    uint8_t slave_y;
+} slave_to_master_t;
+
+void user_sync_a_slave_handler(uint8_t in_buflen, const void* in_data, uint8_t out_buflen, void* out_data) {
+    const master_to_slave_t *m2s = (const master_to_slave_t*)in_data;
+    slave_to_master_t *s2m = (slave_to_master_t*)out_data;
+    //s2m->s2m_data = m2s->m2s_data + 5; // whatever comes in, add 5 so it can be sent back
+    if(m2s->m2s_id == V99MASTER){
+      s2m->slave_x = s2m_x;
+      s2m->slave_y = s2m_y;
+    }
+
+    //s2m->slave_x = m2s->m2s_data + 5;
+    //s2m->slave_x = 0;
+    //s2m->slave_x = 11;
+    //s2m->slave_y = 10;
+    //if (!is_keyboard_master())
+
+    //s2m->slave_x = s2m_x;
+    //s2m->slave_y = s2m_y;
+    //s2m_x = 0;
+    //s2m_y = 0;
+}
+
+
+
+void keyboard_post_init_user(void) {
+    debug_enable=true;
+    debug_matrix=true;
+    transaction_register_rpc(USER_SYNCXY, user_sync_a_slave_handler);
+}
+
+void housekeeping_task_user(void) {
+    if (is_keyboard_master()) {
+        // Interact with slave every 500ms
+        static uint32_t last_sync = 0;
+        //if (timer_elapsed32(last_sync) > 500) {
+        if (timer_elapsed32(last_sync) > 16) { // 60hz
+            master_to_slave_t m2s = {V99MASTER};
+            slave_to_master_t s2m = { 0, 0};
+
+            if(transaction_rpc_exec(USER_SYNCXY, sizeof(m2s), &m2s, sizeof(s2m), &s2m)) {
+                last_sync = timer_read32();
+                //dprintf("Slave value: %d\n", s2m.s2m_data); // this will now be 11, as the slave adds 5
+                dprintf("Slave X value: %d\n", s2m.slave_x); // this will now be 11, as the slave adds 5
+                dprintf("Slave Y value: %d\n", s2m.slave_y); // this will now be 11, as the slave adds 5
+                s2m_x = s2m.slave_x;
+                s2m_y = s2m.slave_y;
+                //s2m->slave_x = s2m_x;
+                //s2m->slave_y = s2m_y;
+            } else {
+                dprint("Slave sync failed!\n");
+            }
+
+        }
+    }
+}
+
+#endif
