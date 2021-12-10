@@ -10,7 +10,7 @@
 
     * 這邊要使用的trackpoint模組是V99mini，使用SPI介面
         腳位是1.VCC 2.GND 3.SCLK 4.MOSI 5.MISO 6.CS 7.MOTION
-        只要使用三支IO腳就可以驅動了，CS和MOTION腳只要接地(GND)就好好了
+        只要使用三支IO腳就可以驅動了，CS和MOTION腳只要接地(GND)就好了
         V99  -> Pro Micro
         SCLK -> PD2
         MOSI -> PB0
