@@ -1,4 +1,4 @@
-## 原本就有Ergodash加上Trackpoint的修改方式
+## 在原本就有的Ergodash上增加Trackpoint的修改方式
     * 原始的Ergodash使用的主板是Arduino Pro Micro，檢查過他的線路之後，可以知道他把所有的I/O腳都用上了。
         其實Pro Micro還是有腳位可以生出來的，這邊提供比較容易的三支腳位。
         1.RX左邊第二支腳 PD2
