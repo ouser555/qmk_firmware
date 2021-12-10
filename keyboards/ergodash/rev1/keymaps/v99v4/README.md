@@ -24,13 +24,17 @@
         CS   ->  GND
         MOT  ->  GND
         
-        實接圖
+        實接圖，燒錄這個v99v4 make出來的燒錄檔即可動作，不用接其他電路
 ![005](https://user-images.githubusercontent.com/95702400/145525436-7f2cb1ec-6787-40f4-8be3-d498e8532034.jpg)
+
         正面
 ![004](https://user-images.githubusercontent.com/95702400/145525451-fbbf9760-2b07-483e-a4f6-a4149ae7221d.jpg)
+
         反面
 ![003](https://user-images.githubusercontent.com/95702400/145525458-02c49372-c1b7-46ea-bcdc-a878d347b865.jpg)
+
         可以正常動作，但是LED會亮著，如果不喜歡LED亮著的話的話，把電阻拿掉即可
 ![006](https://user-images.githubusercontent.com/95702400/145525479-1b3d7ba5-532f-4b49-a56e-c0bbdbd9c977.jpg)
-        操作展示
+
+        操作展示，隨便找一片空板固定住模組
 ![VID_20211210_133434](https://user-images.githubusercontent.com/95702400/145525501-7602dffd-74da-4e96-95fe-c64486629635.gif)
