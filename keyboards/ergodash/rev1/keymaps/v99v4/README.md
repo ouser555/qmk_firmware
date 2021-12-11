@@ -22,7 +22,7 @@
         VCC  ->  VCC
         GND  ->  GND
         CS   ->  GND
-        MOT  ->  GND
+        MOT  ->  GND (這隻腳是有移動數據時會拉LOW，讓主控判斷有資料要讀，空接也是可以)
         
         手殘實接圖，燒錄這個v99v4 make出來的燒錄檔即可動作(只是原本的ergodash改驅動腳位而已)，不用接其他電路
 ![005](https://user-images.githubusercontent.com/95702400/145525436-7f2cb1ec-6787-40f4-8be3-d498e8532034.jpg)
