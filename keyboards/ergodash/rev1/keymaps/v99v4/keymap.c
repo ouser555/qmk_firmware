@@ -434,6 +434,12 @@ __attribute__((weak)) void process_mouse(report_mouse_t* mouse_report) {
       // send xy value to keyboard master
       s2m_x = data.dx;
       s2m_y = data.dy;
+        
+      xt = data.dx;
+      yt = data.dy;
+      ht = 0;
+      vt = 0;  
+      
     }
 
     mouse_report->h = (int16_t)ht * -1;
