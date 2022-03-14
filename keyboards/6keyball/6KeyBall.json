@@ -1,0 +1,75 @@
+{
+  "name": "6KeyBall",
+  "vendorId": "0xCEEB",
+  "productId": "0x0007",
+  "lighting": {
+    "extends": "qmk_backlight_rgblight"
+  },
+  "matrix": {"rows": 3, "cols": 3},
+  "customKeycodes": [
+        {
+          "name": "QWERTY",
+          "title": "Normal key",
+          "shortName": "QWERTY"
+        },
+        {
+          "name": "LOWER",
+          "title": "LOWER key",
+          "shortName": "LOWER"
+        },
+        {
+          "name": "RAISE",
+          "title": "RAISE key",
+          "shortName": "RAISE"
+        },
+        {
+          "name": "ADJUST",
+          "title": "ADJUST key",
+          "shortName": "ADJUST"
+        },
+        {
+          "name": "DPIM",
+          "title": "DPI MASTER",
+          "shortName": "DPIM"
+        },
+        {
+          "name": "DPIS",
+          "title": "DPI SLAVE",
+          "shortName": "DPIS"
+        },
+        {
+          "name": "DSCRL_M",
+          "title": "DRAG SCROLL MASTER",
+          "shortName": "SCRLM"
+        },
+        {
+          "name": "DSCRL_S",
+          "title": "DRAG SCROLL SLAVE",
+          "shortName": "SCRLS"
+        }
+    ],
+  "layouts": {
+    "keymap": [
+        [
+        {"y":0.5,"x":0},
+        "0,0",
+        {"y":-0.5,"x":0},
+        "0,1",
+        {"y":0.5,"x":0},
+        "0,2"
+        ],
+        [
+        {"y":0,"x":0},
+        "1,0",
+        {"y":0.5,"x":0},
+        "1,1",
+        {"y":-0.5,"x":0},
+        "1,2"
+        ],
+        [
+        {"y":-1.5,"x":1},
+        "2,0"
+        ]
+	  ]
+	}
+}
