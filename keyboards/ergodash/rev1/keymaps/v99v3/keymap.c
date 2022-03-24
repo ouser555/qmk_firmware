@@ -16,19 +16,26 @@ void process_wheel_user(report_mouse_t* mouse_report, int16_t h, int16_t v);
 
 //#define V99_DPI_OPTIONS { 1, 2, 3, 4, 5, 6, 7, 8 }
 #define V99_DPI_OPTIONS { 1, 2, 3, 4, 5, 6 }
-#define V99_DPI_MASTER_DEFAULT 5
-#define V99_DPI_SLAVE_DEFAULT 2
+//#define V99_DPI_MASTER_DEFAULT 5
+#define V99_DPI_MASTER_DEFAULT 1
+//#define V99_DPI_SLAVE_DEFAULT 2
+#define V99_DPI_SLAVE_DEFAULT 1
 #ifndef V99_DRAGSCROLL_DPI
 #define V99_DRAGSCROLL_DPI 1 // Fixed-DPI Drag Scroll
 #endif
 uint16_t dpi_array[] = V99_DPI_OPTIONS;
 #define DPI_OPTION_SIZE (sizeof(dpi_array) / sizeof(uint16_t))
 
-static int8_t V99_X_TRANSFORM_M = -4;
-static int8_t V99_Y_TRANSFORM_M =  4;
+//static int8_t V99_X_TRANSFORM_M = -4;
+static int8_t V99_X_TRANSFORM_M = -1;
+//static int8_t V99_Y_TRANSFORM_M =  4;
+static int8_t V99_Y_TRANSFORM_M =  1;
 
-static int8_t V99_X_TRANSFORM_S = -5;
-static int8_t V99_Y_TRANSFORM_S =  5;
+
+//static int8_t V99_X_TRANSFORM_S = -5;
+static int8_t V99_X_TRANSFORM_S = -1;
+//static int8_t V99_Y_TRANSFORM_S =  5;
+static int8_t V99_Y_TRANSFORM_S =  1;
 
 typedef union {
   uint32_t raw;
@@ -434,7 +441,7 @@ __attribute__((weak)) void process_mouse(report_mouse_t* mouse_report) {
       // send xy value to keyboard master
       s2m_x = data.dx;
       s2m_y = data.dy;
-        
+
       xt = data.dx;
       yt = data.dy;
       ht = 0;
