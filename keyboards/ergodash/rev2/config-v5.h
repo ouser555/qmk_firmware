@@ -35,6 +35,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // wiring of each half
 #define MATRIX_ROW_PINS { D4, D7, E6, B4, B5 }
 #define MATRIX_COL_PINS { F4, F5, F6, F7, B1, B3, B2 }
+//#define MATRIX_COL_PINS { F4, F5, F6, F7, B1, D5, B2 }
 // #define MATRIX_COL_PINS { B2, B3, B1, F7, F6, F5, F4 } //uncomment this line and comment line above if you need to reverse left-to-right key order
 
 #define DIODE_DIRECTION COL2ROW
@@ -65,14 +66,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /* ws2812 RGB LED */
 #define RGB_DI_PIN D3
-//#define RGBLIGHT_ANIMATIONS
-#define RGBLED_NUM 24
+#define RGBLIGHT_ANIMATIONS
+//#define RGBLED_NUM 24
+#define RGBLED_NUM 70
 #define RGBLIGHT_SPLIT
-#define RGBLED_SPLIT { 12, 12 }    // Number of LEDs
+//#define RGBLED_SPLIT { 12, 12 }    // Number of LEDs
+#define RGBLED_SPLIT { 35, 35 }    // Number of LEDs
 
 // The LEDs on the slave half go in reverse order
-#define RGBLIGHT_LED_MAP { 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, \
-                          23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12}
+#if 0
+#define RGBLIGHT_LED_MAP { 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34,\
+                          69, 68, 67, 66, 65, 64, 63, 62, 61, 60, 59, 58, 57, 56, 55, 54, 53, 52, 51, 50, 49, 48, 47, 46, 45, 44, 43, 42, 41, 40, 39, 38, 37, 36, 35 }
+#endif
+#define RGBLIGHT_LED_MAP { 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34,\
+                          65, 66, 67, 68, 69, 60, 61, 62, 63, 64, 55, 56, 57, 58, 59, 50, 51, 52, 53, 54, 45, 46, 47, 48, 49, 40, 41, 42, 43, 44, 35, 36, 37, 38, 39 }
 
 #define SOFT_SERIAL_PIN D0
 #define SELECT_SOFT_SERIAL_SPEED 0
