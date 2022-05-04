@@ -1,3 +1,16 @@
+#Ergodashv99版本說明
+
+    * 目前有三個版本
+
+    * v99v3 焊接版本
+        * make ergodash/rev1:v99v3
+    
+    * v99v4 原版ergodash拉出LED腳位驅動Trackpoint
+        * make ergodash/rev1:v99v4
+    
+    * v99v5 hotswap+RGB版本
+        * make ergodash/rev2:v99v5
+
 # ErgoDash
 
 ![ErgoDash](https://github.com/omkbd/picture/blob/master/Ergodash.jpg)
