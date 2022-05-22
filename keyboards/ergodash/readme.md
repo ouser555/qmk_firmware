@@ -11,6 +11,9 @@
     * v99v5 hotswap+RGB版本
         * make ergodash/rev2:v99v5
 
+# 使用注意事項
+    * 如要使用這裡的版本，原版的ergodash/rev1/keymaps 這個資料夾必須刪掉，否則編譯不會過。也可以把整個ergodash整個資料夾刪掉，再複製這裡的版本。
+
 # ErgoDash
 
 ![ErgoDash](https://github.com/omkbd/picture/blob/master/Ergodash.jpg)
