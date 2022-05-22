@@ -1,7 +1,8 @@
-# ErgoDash V99 
+#ErgoDash + trackpoint 編譯方式
+## ErgoDash V99 trackpoint
 *  make ergodash/rev1:v99v3
 
-# ErgoDash V99 hotswap + 70 RGB LED
+## ErgoDash V99 trackpoint + hotswap + 70 RGB LED
 * make ergodash/rev2:v99v5
 
 # ErgoDash
