@@ -1,3 +1,9 @@
+# ErgoDash V99 
+*  make ergodash/rev1:v99v3
+
+# ErgoDash V99 hotswap + 70 RGB LED
+* make ergodash/rev2:v99v5
+
 # ErgoDash
 
 ![ErgoDash](https://github.com/omkbd/picture/blob/master/Ergodash.jpg)
