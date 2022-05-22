@@ -23,7 +23,12 @@
 
 # 使用注意事項
     * 如要使用這裡的版本，原版的ergodash/rev1/keymaps 這個資料夾必須刪掉，否則編譯不會過。也可以把整個ergodash整個資料夾刪掉，再複製這裡的版本。
-
+    * 這個版本使用的QMK版本為0.15.21
+    * https://github.com/qmk/qmk_firmware/releases/tag/0.15.21
+    * 編輯文檔當下的QMK已經更新到0.16.9，此時pointing device已經改了非常多了，可以看官方說明。
+    * https://github.com/qmk/qmk_firmware/blob/master/docs/feature_pointing_device.md
+    * 目前用最新版的QMK是沒辦法編譯的，這邊會再找時間看看新的程式，如果有修改程式的需求建議還是先使用跟0.15.21版本。
+    
 # ErgoDash
 
 ![ErgoDash](https://github.com/omkbd/picture/blob/master/Ergodash.jpg)
