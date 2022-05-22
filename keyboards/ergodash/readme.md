@@ -1,4 +1,4 @@
-#ErgoDash + trackpoint 編譯方式
+# ErgoDash + trackpoint 編譯方式
 ## ErgoDash V99 trackpoint
 *  make ergodash/rev1:v99v3
 
